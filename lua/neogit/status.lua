@@ -142,7 +142,7 @@ local function draw_buffer()
 
       for _, f in ipairs(data.files) do
         if f.mode and f.original_name then output:append(string.format('%s %s -> %s', mode_to_text[f.mode], f.original_name, f.name))
-        elseif f.mode then output:append(string.format('%s %s%s', mode_to_text[f.mode], get_icon(f.name), f.name))
+        elseif f.mode then output:append(string.format('%s %s%sHI', mode_to_text[f.mode], get_icon(f.name), f.name))
         else output:append(f.name) end
 
         local file = files_lookup[f.name] or { folded = true }
