@@ -101,6 +101,16 @@ local function draw_signs()
   end
 end
 
+local function get_icon(file)
+	if config.values.icons then
+		local icons, _ = require('nvim-web-devicons')
+		local fname = vim.fn.fnamemodify(file, ":t")
+		local ext = vim.fn.fnamemodify(file, ":e")
+		return icons.get_icon(fname, ext, {default = true})
+	end
+	return ""
+end
+
 local function draw_buffer()
   status_buffer:clear_sign_group('hl')
   status_buffer:clear_sign_group('fold_markers')
@@ -132,7 +142,7 @@ local function draw_buffer()
 
       for _, f in ipairs(data.files) do
         if f.mode and f.original_name then output:append(string.format('%s %s -> %s', mode_to_text[f.mode], f.original_name, f.name))
-        elseif f.mode then output:append(string.format('%s %s', mode_to_text[f.mode], f.name))
+        elseif f.mode then output:append(string.format('%s %s%s', mode_to_text[f.mode], get_icon(f.name), f.name))
         else output:append(f.name) end
 
         local file = files_lookup[f.name] or { folded = true }
